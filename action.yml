@@ -1,0 +1,13 @@
+name: 'Get Latest Tag'
+description: 'Get the latest tag from git and outputs that for use in other actions'
+branding:
+  icon: 'tag'
+  color: 'gray-dark'
+outputs:
+  tag:
+    description: 'Latest tag'
+    type: string
+    required: true
+runs:
+  using: 'node12'
+  main: 'main.js'
