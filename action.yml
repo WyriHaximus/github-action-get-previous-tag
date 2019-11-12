@@ -6,8 +6,6 @@ branding:
 outputs:
   tag:
     description: 'Latest tag'
-    type: string
-    required: true
 runs:
   using: 'node12'
   main: 'main.js'
