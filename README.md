@@ -1,4 +1,4 @@
-# github-action-get-previous-tag
+# Get previous tag
 
 Github Action that gets the latest tag from git
 
