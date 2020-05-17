@@ -1,0 +1,23 @@
+name: Continuous Integration
+on:
+  push:
+    branches:
+      - 'master'
+  pull_request:
+jobs:
+  get-previous-tag:
+    name: Test Get Previous Tag on ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v1
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: ./
+      - run: |
+          echo "${{ steps.previoustag.outputs.tag }}"
