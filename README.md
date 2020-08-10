@@ -21,12 +21,12 @@ name: Generate
 jobs:
   generate:
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2.2.0
+        with:
+          fetch-depth: 0
       - name: 'Get Previous tag'
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@master"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       - name: 'Get next minor version'
         id: semvers
         uses: "WyriHaximus/github-action-next-semvers@master"
