@@ -6,15 +6,16 @@ Github Action that gets the latest tag from git
 
 ## Output
 
-This action has only one output, namely, `tag` for the latest tag this action finds. When no tag is found or another 
-error occurs it exits with code `1`.
+This action has only one output, namely, `tag` for the latest tag this action finds.
+When no tag is found or another error occurs it exits with code `1`.
 
 ## Example
 
-The following example works together with the [`WyriHaximus/github-action-next-semvers`](https://github.com/marketplace/actions/next-semvers) 
-and [`WyriHaximus/github-action-create-milestone`](https://github.com/marketplace/actions/create-milestone) actions. 
-Where it provides the previous tag from that action so it can supply a set of versions for the next action, which 
-creates a new milestone. (This snippet has been taken from the automatic code generation of [`wyrihaximus/fake-php-version`](https://github.com/wyrihaximus/php-fake-php-version/).)
+Find more examples in the [examples directory](./examples/).
+
+The following example works together with the [`WyriHaximus/github-action-next-semvers`](https://github.com/marketplace/actions/next-semvers) and [`WyriHaximus/github-action-create-milestone`](https://github.com/marketplace/actions/create-milestone) actions.
+Where it provides the previous tag from that action so it can supply a set of versions for the next action, which creates a new milestone.
+(This snippet has been taken from the automatic code generation of [`wyrihaximus/fake-php-version`](https://github.com/wyrihaximus/php-fake-php-version/).)
 
 ```yaml
 name: Generate
