@@ -1,5 +1,9 @@
 # Get previous tag
 
+[![Release](https://github.com/WyriHaximus/github-action-get-previous-tag/workflows/Release/badge.svg)](https://github.com/WyriHaximus/github-action-get-previous-tag/actions?query=workflow%3ARelease)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/WyriHaximus/github-action-get-previous-tag?logo=github&sort=semver)](https://github.com/WyriHaximus/github-action-get-previous-tag/releases)
+
+
 Github Action that gets the latest tag from git
 
 ![Example output showing this action in action](images/output.png)
