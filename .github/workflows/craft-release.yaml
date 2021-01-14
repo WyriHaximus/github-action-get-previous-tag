@@ -1,0 +1,84 @@
+name: Create Release
+env:
+  DOCKER_IMAGE: wyrihaximusgithubactions/jwage-changelog-generator
+  MILESTONE: ${{ github.event.milestone.title }}
+on:
+  milestone:
+    types:
+      - closed
+jobs:
+  wait-for-status-checks:
+    name: Wait for status checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - run: sleep 13
+      - name: 'Wait for status checks'
+        id: waitforstatuschecks
+        uses: "WyriHaximus/github-action-wait-for-status@master"
+        with:
+          ignoreActions: "Wait for status checks"
+          checkInterval: 5
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - if: steps.waitforstatuschecks.outputs.status != 'success'
+        name: Fail
+        run: exit 1
+  generate-changelog:
+    name: Generate Changelog
+    runs-on: ubuntu-latest
+    needs:
+      - wait-for-status-checks
+    outputs:
+      changelog: ${{ steps.changelog.outputs.changelog }}
+    steps:
+      - name: Generate changelog
+        uses: WyriHaximus/github-action-jwage-changelog-generator@master
+        id: changelog
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          milestone: ${{ env.MILESTONE }}
+      - name: Show changelog
+        run: echo "${CHANGELOG}"
+        env:
+          CHANGELOG: ${{ steps.changelog.outputs.changelog }}
+  create-release:
+    name: Create Release
+    needs:
+      - generate-changelog
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Create release/${{ env.MILESTONE }} branch
+        run: git checkout -b release/${{ env.MILESTONE }} ${GITHUB_SHA}
+      - run: echo -e "${CHANGELOG}" > release-${{ env.MILESTONE }}-changelog.md
+        env:
+          CHANGELOG: ${{ needs.generate-changelog.outputs.changelog }}
+      - run: |
+          echo -e "${MILESTONE_DESCRIPTION}\r\n\r\n${CHANGELOG}" > release-${{ env.MILESTONE }}-release-message.md
+          cat release-${{ env.MILESTONE }}-release-message.md
+          release_message=$(cat release-${{ env.MILESTONE }}-release-message.md)
+          release_message="${release_message//'%'/'%25'}"
+          release_message="${release_message//$'\n'/'%0A'}"
+          release_message="${release_message//$'\r'/'%0D'}"
+          echo "::set-output name=release_message::$release_message"
+        id: releasemessage
+        env:
+          MILESTONE_DESCRIPTION: ${{ github.event.milestone.description }}
+          CHANGELOG: ${{ needs.generate-changelog.outputs.changelog }}
+      - name: Create release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.MILESTONE }}
+          release_name: ${{ env.MILESTONE }}
+          body: ${{ steps.releasemessage.outputs.release_message }}
+          draft: false
+          prerelease: false
+      - name: Updated related tags
+        uses: haya14busa/action-update-semver@v1
+        with:
+          tag: ${{ env.MILESTONE }}
+
