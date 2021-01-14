@@ -22,7 +22,7 @@ jobs:
       #▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼#
       - name: Get previous tag
         id: previoustag
-        uses: "WyriHaximus/github-action-get-previous-tag@1.0.0"
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
       #▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲#
       - name: Get seconds from previous tag to now
         id: diff
@@ -42,7 +42,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
       - name: Get next minor version
         id: semvers
-        uses: "WyriHaximus/github-action-next-semvers@v1.0"
+        uses: "WyriHaximus/github-action-next-semvers@v1"
         with:
           version: ${{ needs.analyze-tags.outputs.previous-tag }}
 
