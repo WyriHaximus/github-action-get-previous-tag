@@ -1,0 +1,109 @@
+name: Set Milestone
+on:
+  pull_request:
+    types:
+      - assigned
+      - opened
+      - synchronize
+      - reopened
+      - edited
+      - ready_for_review
+      - review_requested
+jobs:
+  set-milestone:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        if: github.event.pull_request.milestone == null
+      - name: 'Get Previous tag'
+        if: github.event.pull_request.milestone == null
+        id: previousgittag
+        continue-on-error: true
+        uses: "WyriHaximus/github-action-get-previous-tag@master"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - run: |
+          if [ $(echo ${GITTAG} | wc -c) -eq 1 ] ; then
+            printf "Falling back to v1.0.0 as \"%s\" is unexpectedly empty\r\n" "${GITTAG}"
+            printf "::set-output name=tag::%s" "v1.0.0"
+            exit 0
+          fi
+
+          printf "Using \"%s\"\r\n" "${GITTAG}"
+          printf "::set-output name=tag::%s" "${GITTAG}"
+        name: Fall back to v1.0.0 if we haven't tagged anything yet
+        if: github.event.pull_request.milestone == null
+        id: previoustag
+        env:
+          GITTAG: ${{ steps.previousgittag.outputs.tag }}
+      - name: 'Get next versions'
+        if: github.event.pull_request.milestone == null
+        id: semvers
+        uses: "WyriHaximus/github-action-next-semvers@master"
+        with:
+          version: ${{ steps.previoustag.outputs.tag }}
+          strict: false
+      - run: |
+          if [ "$IS_DEPENDABOT" = true ] ; then
+            echo "Is dependabot PR"
+            if [[ "$(printenv MILESTONES | jq -c '. | length')" -eq "0" ]] ; then
+              echo "No milestone exists, usint patch version for next milestone"
+              printf "::set-output name=milestone::%s" "${PATCH}"
+              exit 0
+            fi
+          fi
+
+          echo "Using default minor version for next milestone"
+          printf "::set-output name=milestone::%s" "${MINOR}"
+        name: Decide which version to use as milestone
+        if: github.event.pull_request.milestone == null
+        id: milestone
+        env:
+          MILESTONES: ${{ steps.milestones.outputs.milestones }}
+          MAJOR: ${{ steps.semvers.outputs.v_major }}
+          MINOR: ${{ steps.semvers.outputs.v_minor }}
+          PATCH: ${{ steps.semvers.outputs.v_patch }}
+          IS_DEPENDABOT: ${{ contains(github.ref, 'dependabot') }}
+          GITTAG: ${{ steps.previousgittag.outputs.tag }}
+          PREVIOUSTAG: ${{ steps.previoustag.outputs.tag }}
+      - name: 'Get Milestones'
+        if: github.event.pull_request.milestone == null
+        uses: "WyriHaximus/github-action-get-milestones@master"
+        id: milestones
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - run: printf "::set-output name=number::%s" $(printenv MILESTONES | jq --arg MILESTONE $(printenv MILESTONE) '.[]  | select(.title == $MILESTONE) | .number')
+        if: github.event.pull_request.milestone == null
+        id: querymilestone
+        env:
+          MILESTONES: ${{ steps.milestones.outputs.milestones }}
+          MILESTONE: ${{ steps.milestone.outputs.milestone }}
+      - name: 'Create Milestone'
+        if: github.event.pull_request.milestone == null && steps.querymilestone.outputs.number == ''
+        id: createmilestone
+        uses: "WyriHaximus/github-action-create-milestone@master"
+        with:
+          title: ${{ steps.milestone.outputs.milestone }}
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - name: 'Select found or created Milestone'
+        if: github.event.pull_request.milestone == null
+        id: selectmilestone
+        run: |
+          if [ $(echo ${QUERY_NUMBER} | wc -c) -eq 1 ] ; then
+            printf "::set-output name=number::%s" "${CREATED_NUMBER}"
+            exit 0
+          fi
+
+          printf "::set-output name=number::%s" "${QUERY_NUMBER}"
+        env:
+          CREATED_NUMBER: ${{ steps.createmilestone.outputs.number }}
+          QUERY_NUMBER: ${{ steps.querymilestone.outputs.number }}
+      - name: 'Set Milestone'
+        if: github.event.pull_request.milestone == null
+        uses: "WyriHaximus/github-action-set-milestone@master"
+        with:
+          issue_number: ${{ github.event.pull_request.number }}
+          milestone_number: ${{ steps.selectmilestone.outputs.number }}
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
