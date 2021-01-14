@@ -1,0 +1,115 @@
+repository:
+    private: false
+    has_issues: true
+    has_wiki: false
+    has_downloads: true
+    default_branch: master
+    allow_squash_merge: false
+    allow_merge_commit: true
+    allow_rebase_merge: false
+
+# Labels: define labels for Issues and Pull Requests
+labels:
+    - name: "Dependencies 📦"
+      color: 0025ff
+      description: "Pull requests that update a dependency file"
+    - name: "Image 🖼"
+      color: 00ffff
+    - name: "HTML 👷‍♀️"
+      color: ffffff
+    - name: "CSS 👩‍🎨"
+      color: b3b3b3
+    - name: "JavaScript 🦏"
+      color: ffff00
+    - name: "Go 🐹"
+      color: 00ADD8
+    - name: "JSON 👨‍💼"
+      color: 00ADD8
+    - name: "NEON 🦹‍♂️"
+      color: CE3262
+    - name: "MarkDown 📝"
+      color: 000000
+    - name: "YAML 🍄"
+      color: ff1aff
+    - name: "Templates 🌲"
+      color: 009933
+    - name: "Helm ☸"
+      color: 091C84
+    - name: "Tests 🧪"
+      color: ffe6e6
+    - name: "Source 🔮"
+      color: e6ffe6
+    - name: "Configuration ⚙"
+      color: b3b3cc
+    - name: "PHP 🐘"
+      color: 8892BF
+      description: "Hypertext Pre Processor"
+    - name: "Docker 🐳"
+      color: 0db7ed
+      description: "Pull requests that relate to Docker"
+    - name: "CI 🚧"
+      color: ffff00
+    - name: "Feature 🏗"
+      color: 66ff99
+    - name: "Documentation 📚"
+      color: 6666ff
+    - name: "Security 🕵️‍♀️"
+      color: ff0000
+    - name: "Hacktoberfest 🎃"
+      color: 152347
+    - name: "Bug 🐞"
+      color: d73a4a
+      description: "Something isn't working"
+      oldname: bug
+    - name: "Duplicate ♊"
+      color: cfd3d7
+      description: "This issue or pull request already exists"
+      oldname: duplicate
+    - name: "Enhancement ✨"
+      color: a2eeef
+      description: "New feature or request"
+      oldname: enhancement
+    - name: "Good First Issue"
+      color: 7057ff
+      description: "Good for newcomers"
+      oldname: "good first issue"
+    - name: "Help Wanted"
+      color: 008672
+      description: "Extra attention is needed"
+      oldname: "help wanted"
+    - name: Invalid
+      color: e4e669
+      description: "This doesn't seem right"
+      oldname: invalid
+    - name: "Question ❓"
+      color: d876e3
+      description: "Further information is requested"
+      oldname: question
+    - name: "Will not be fixed 🛑"
+      color: ffffff
+      description: "This will not be worked on"
+      oldname: wontfix
+    - name: "Sponsor Request ❤️"
+      color: fedbf0
+      description: "Issue/PR opened by sponsor"
+
+branches:
+    - name: master
+      protection:
+          required_pull_request_reviews:
+              required_approving_review_count: 1
+              dismiss_stale_reviews: true
+              require_code_owner_reviews: true
+          # Required. Require status checks to pass before merging. Set to null to disable
+          required_status_checks:
+              # Required. Require branches to be up to date before merging.
+              strict: true
+              # Required. The list of status checks to require in order to merge into this branch
+              contexts: []
+          # Required. Enforce all configured restrictions for administrators. Set to true to enforce required status checks for repository administrators. Set to null to disable.
+          enforce_admins: true
+          # Required. Restrict who can push to this branch. Team and user restrictions are only available for organization-owned repositories. Set to null to disable.
+          restrictions:
+              apps: []
+              users: []
+              teams: []
