@@ -8,10 +8,22 @@ Github Action that gets the latest tag from git
 
 ![Example output showing this action in action](images/output.png)
 
+## Input
+
+By default, this action will fail if no tag can be found, however, it accepts a `fallback` tag that will be used when no 
+tag can be found. Keep in mind that when this action is used in a workflow that has no `.git` directory, it will still 
+fail, and the fallback tag isn't used.
+
+* `fallback`: `1.0.0`
+
 ## Output
 
-This action has only one output, namely, `tag` for the latest tag this action finds.
-When no tag is found or another error occurs it exits with code `1`.
+This action has two outputs, `tag` for the found tag, or the fallback. And, `timestamp` as a UNIX Epoch timestmap for 
+when the tag was created, or when no tag is found, and a fallback tag has be specific is provides the timestamp of 
+action execution.
+
+* `tag`: `1.2.3`
+* `timestamp`: `123`
 
 ## Example
 
