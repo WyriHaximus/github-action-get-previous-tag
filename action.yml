@@ -3,6 +3,10 @@ description: 'Get the latest tag from git and outputs that for use in other acti
 branding:
   icon: 'tag'
   color: 'gray-dark'
+inputs:
+  fallback:
+    description: 'Fallback tag to use when no previous tag can be found'
+    required: false
 outputs:
   tag:
     description: 'Latest tag'
