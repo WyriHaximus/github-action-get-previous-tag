@@ -8,6 +8,7 @@ jobs:
   get-previous-tag:
     name: Test Get Previous Tag on ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os:
           - ubuntu-latest
