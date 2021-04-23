@@ -1,6 +1,6 @@
 # Get previous tag
 
-[![Release](https://github.com/WyriHaximus/github-action-get-previous-tag/workflows/Release/badge.svg)](https://github.com/WyriHaximus/github-action-get-previous-tag/actions?query=workflow%3ARelease)
+[![Continuous Integration](https://github.com/WyriHaximus/github-action-get-previous-tag/actions/workflows/ci.yml/badge.svg)](https://github.com/WyriHaximus/github-action-get-previous-tag/actions/workflows/ci.yml)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/WyriHaximus/github-action-get-previous-tag?logo=github&sort=semver)](https://github.com/WyriHaximus/github-action-get-previous-tag/releases)
 
 
@@ -50,7 +50,7 @@ jobs:
 
 ## License ##
 
-Copyright 2019 [Cees-Jan Kiewiet](http://wyrihaximus.net/)
+Copyright 2021 [Cees-Jan Kiewiet](http://wyrihaximus.net/)
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
