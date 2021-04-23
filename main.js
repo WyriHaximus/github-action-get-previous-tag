@@ -12,6 +12,15 @@ exec('git rev-list --tags --max-count=1', (err, rev, stderr) => {
         if (err) {
             console.log('\x1b[33m%s\x1b[0m', 'Could not find any tags because: ');
             console.log('\x1b[31m%s\x1b[0m', stderr);
+            if (process.env.INPUT_FALLBACK) {
+                let timestamp = Math.floor(new Date().getTime() / 1000);
+                console.log('\x1b[33m%s\x1b[0m', 'Falling back to default tag');
+                console.log('\x1b[32m%s\x1b[0m', `Found tag: ${process.env.INPUT_FALLBACK}`);
+                console.log('\x1b[32m%s\x1b[0m', `Found timestamp: ${timestamp}`);
+                console.log(`::set-output name=tag::${process.env.INPUT_FALLBACK}`);
+                console.log(`::set-output name=timestamp::${timestamp}`);
+                process.exit(0);
+            }
             process.exit(1);
         }
 

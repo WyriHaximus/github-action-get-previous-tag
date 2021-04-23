@@ -22,3 +22,14 @@ jobs:
         uses: ./
       - run: |
           echo "${{ steps.previoustag.outputs.tag }}"
+      - name: Remove tags
+        uses: JesseTG/rm@v1.0.2
+        with:
+          path: .git/refs/tags
+      - name: 'Get Previous tag with fallback'
+        id: previoustagwithfallback
+        uses: ./
+        with:
+          fallback: v1.0.0
+      - run: |
+          echo "${{ steps.previoustagwithfallback.outputs.tag }}"
