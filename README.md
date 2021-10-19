@@ -4,7 +4,7 @@
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/WyriHaximus/github-action-get-previous-tag?logo=github&sort=semver)](https://github.com/WyriHaximus/github-action-get-previous-tag/releases)
 
 
-Github Action that gets the latest tag from git
+GitHub Action that gets the latest tag from Git
 
 ![Example output showing this action in action](images/output.png)
 
