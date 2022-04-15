@@ -40,7 +40,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2.2.0
         with:
-          fetch-depth: 0 # Required due to the weg Git works, without it this action won't be able to find any or the correct tags
+          fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
       - name: 'Get Previous tag'
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
