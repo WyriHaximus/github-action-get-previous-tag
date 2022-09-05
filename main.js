@@ -1,45 +1,35 @@
 const { exec } = require('child_process');
-exec('git rev-list --tags --max-count=1', (err, rev, stderr) => {
+exec(`git for-each-ref --sort=-taggerdate --count 1 --format="%(refname:short)" "refs/tags/*"`, (err, tag, stderr) => {
     if (err) {
-        console.log('\x1b[33m%s\x1b[0m', 'Could not find any revisions because: ');
+        console.log('\x1b[33m%s\x1b[0m', 'Could not find any tags because: ');
         console.log('\x1b[31m%s\x1b[0m', stderr);
+        if (process.env.INPUT_FALLBACK) {
+            let timestamp = Math.floor(new Date().getTime() / 1000);
+            console.log('\x1b[33m%s\x1b[0m', 'Falling back to default tag');
+            console.log('\x1b[32m%s\x1b[0m', `Found tag: ${process.env.INPUT_FALLBACK}`);
+            console.log('\x1b[32m%s\x1b[0m', `Found timestamp: ${timestamp}`);
+            console.log(`::set-output name=tag::${process.env.INPUT_FALLBACK}`);
+            console.log(`::set-output name=timestamp::${timestamp}`);
+            process.exit(0);
+        }
         process.exit(1);
     }
 
-    rev = rev.trim()
+    tag = tag.trim()
 
-    exec(`git describe --tags ${rev}`, (err, tag, stderr) => {
+    exec(`git log -1 --format=%at ${tag}`, (err, timestamp, stderr) => {
         if (err) {
-            console.log('\x1b[33m%s\x1b[0m', 'Could not find any tags because: ');
+            console.log('\x1b[33m%s\x1b[0m', 'Could not find any timestamp because: ');
             console.log('\x1b[31m%s\x1b[0m', stderr);
-            if (process.env.INPUT_FALLBACK) {
-                let timestamp = Math.floor(new Date().getTime() / 1000);
-                console.log('\x1b[33m%s\x1b[0m', 'Falling back to default tag');
-                console.log('\x1b[32m%s\x1b[0m', `Found tag: ${process.env.INPUT_FALLBACK}`);
-                console.log('\x1b[32m%s\x1b[0m', `Found timestamp: ${timestamp}`);
-                console.log(`::set-output name=tag::${process.env.INPUT_FALLBACK}`);
-                console.log(`::set-output name=timestamp::${timestamp}`);
-                process.exit(0);
-            }
             process.exit(1);
         }
 
-        tag = tag.trim()
+        timestamp = timestamp.trim()
 
-        exec(`git log -1 --format=%at ${tag}`, (err, timestamp, stderr) => {
-            if (err) {
-                console.log('\x1b[33m%s\x1b[0m', 'Could not find any timestamp because: ');
-                console.log('\x1b[31m%s\x1b[0m', stderr);
-                process.exit(1);
-            }
-
-            timestamp = timestamp.trim()
-
-            console.log('\x1b[32m%s\x1b[0m', `Found tag: ${tag}`);
-            console.log('\x1b[32m%s\x1b[0m', `Found timestamp: ${timestamp}`);
-            console.log(`::set-output name=tag::${tag}`);
-            console.log(`::set-output name=timestamp::${timestamp}`);
-            process.exit(0);
-        });
+        console.log('\x1b[32m%s\x1b[0m', `Found tag: ${tag}`);
+        console.log('\x1b[32m%s\x1b[0m', `Found timestamp: ${timestamp}`);
+        console.log(`::set-output name=tag::${tag}`);
+        console.log(`::set-output name=timestamp::${timestamp}`);
+        process.exit(0);
     });
 });
