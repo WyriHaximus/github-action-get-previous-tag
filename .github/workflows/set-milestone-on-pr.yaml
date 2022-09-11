@@ -13,7 +13,9 @@ jobs:
   set-milestone:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
         if: github.event.pull_request.milestone == null
       - name: 'Get Previous tag'
         if: github.event.pull_request.milestone == null

@@ -11,7 +11,6 @@ jobs:
     name: Wait for status checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
       - run: sleep 13
       - name: 'Wait for status checks'
         id: waitforstatuschecks
@@ -49,7 +48,9 @@ jobs:
       - generate-changelog
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
       - name: Create release/${{ env.MILESTONE }} branch
         run: git checkout -b release/${{ env.MILESTONE }} ${GITHUB_SHA}
       - run: echo -e "${CHANGELOG}" > release-${{ env.MILESTONE }}-changelog.md
