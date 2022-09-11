@@ -38,7 +38,7 @@ name: Generate
 jobs:
   generate:
     steps:
-      - uses: actions/checkout@v2.2.0
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
       - name: 'Get Previous tag'
