@@ -10,6 +10,8 @@ inputs:
 outputs:
   tag:
     description: 'Latest tag'
+  timestamp:
+    description: 'Latest tag timestamp'
 runs:
   using: 'node12'
   main: 'main.js'

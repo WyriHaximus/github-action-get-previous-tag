@@ -23,7 +23,10 @@ jobs:
         id: previoustag
         uses: ./
       - run: |
-          echo "${{ steps.previoustag.outputs.tag }}"
+          echo "Tag: ${{ steps.previoustag.outputs.tag }}"
+          echo "Timestamp: ${{ steps.previoustag.outputs.timestamp }}"
+          test -n "${{ steps.previoustag.outputs.tag }}"
+          test -n "${{ steps.previoustag.outputs.timestamp }}"
       - name: Remove tags
         uses: JesseTG/rm@v1.0.2
         with:
@@ -34,4 +37,7 @@ jobs:
         with:
           fallback: v1.0.0
       - run: |
-          echo "${{ steps.previoustagwithfallback.outputs.tag }}"
+          echo "Tag: ${{ steps.previoustagwithfallback.outputs.tag }}"
+          echo "Timestamp: ${{ steps.previoustagwithfallback.outputs.timestamp }}"
+          test -n "${{ steps.previoustagwithfallback.outputs.tag }}"
+          test -n "${{ steps.previoustagwithfallback.outputs.timestamp }}"
