@@ -16,18 +16,13 @@ jobs:
           - macos-latest
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
-      - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
       - name: 'Get Previous tag'
         id: previoustag
         uses: ./
       - run: |
-          pwd
-          ls -la
-          ls -l .git/refs/tags/*
-          git for-each-ref --sort=-taggerdate --count 1 --format="%(refname:short)" "refs/tags/*"
           echo "Tag: ${{ steps.previoustag.outputs.tag }}"
           echo "Timestamp: ${{ steps.previoustag.outputs.timestamp }}"
           test -n "${{ steps.previoustag.outputs.tag }}"
