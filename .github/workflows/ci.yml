@@ -24,7 +24,7 @@ jobs:
         uses: ./
       - run: |
           pwd
-          ls -l
+          ls -la
           ls -l .git/refs/tags/*
           git for-each-ref --sort=-taggerdate --count 1 --format="%(refname:short)" "refs/tags/*"
           echo "Tag: ${{ steps.previoustag.outputs.tag }}"
