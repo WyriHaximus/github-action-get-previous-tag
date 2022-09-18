@@ -1,5 +1,6 @@
 # Get previous tag
 
+
 [![Continuous Integration](https://github.com/WyriHaximus/github-action-get-previous-tag/actions/workflows/ci.yml/badge.svg)](https://github.com/WyriHaximus/github-action-get-previous-tag/actions/workflows/ci.yml)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/WyriHaximus/github-action-get-previous-tag?logo=github&sort=semver)](https://github.com/WyriHaximus/github-action-get-previous-tag/releases)
 
