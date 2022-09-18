@@ -23,7 +23,7 @@ jobs:
         id: previoustag
         uses: ./
       - run: |
-          echo `"git for-each-ref --sort=-taggerdate --count 1 --format="%(refname:short)" "refs/tags/*"`
+          echo `git for-each-ref --sort=-taggerdate --count 1 --format="%(refname:short)" "refs/tags/*"`
           echo "Tag: ${{ steps.previoustag.outputs.tag }}"
           echo "Timestamp: ${{ steps.previoustag.outputs.timestamp }}"
           test -n "${{ steps.previoustag.outputs.tag }}"
