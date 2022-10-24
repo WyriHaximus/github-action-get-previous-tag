@@ -13,5 +13,5 @@ outputs:
   timestamp:
     description: 'Latest tag timestamp'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'main.js'
