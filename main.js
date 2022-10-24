@@ -1,7 +1,7 @@
 const { exec } = require('child_process');
 const fs = require('fs');
 
-exec(`git for-each-ref --sort=-creatordate --count 1 --format="%(refname:short)" "refs/tags/*"`, (err, tag, stderr) => {
+exec(`git for-each-ref --sort=-taggerdate --count 1 --format="%(refname:short)" "refs/tags/*"`, (err, tag, stderr) => {
     tag = tag.trim();
 
     if (err) {
