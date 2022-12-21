@@ -15,7 +15,10 @@ By default, this action will fail if no tag can be found, however, it accepts a 
 tag can be found. Keep in mind that when this action is used in a workflow that has no `.git` directory, it will still 
 fail, and the fallback tag isn't used.
 
+It is also accepts a `prefix` string to query the tags based on it.
+
 * `fallback`: `1.0.0`
+* `prefix`: `tag-prefix`
 
 ## Output
 
