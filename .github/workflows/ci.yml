@@ -27,6 +27,19 @@ jobs:
           echo "Timestamp: ${{ steps.previoustag.outputs.timestamp }}"
           test -n "${{ steps.previoustag.outputs.tag }}"
           test -n "${{ steps.previoustag.outputs.timestamp }}"
+      - name: Add tag with prefix
+        run: |
+          git tag tag-with-prefix-v1.0.0
+      - name: 'Get Previous tag with prefix'
+        id: previoustagwithprefix
+        uses: ./
+        with:
+          prefix: tag-with-prefix-v
+      - run: |
+          echo "Tag: ${{ steps.previoustagwithprefix.outputs.tag }}"
+          echo "Timestamp: ${{ steps.previoustagwithprefix.outputs.timestamp }}"
+          test -n "${{ steps.previoustagwithprefix.outputs.tag }}"
+          test -n "${{ steps.previoustagwithprefix.outputs.timestamp }}"
       - name: Remove tags
         uses: JesseTG/rm@v1.0.2
         with:

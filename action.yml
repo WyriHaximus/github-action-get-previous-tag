@@ -7,6 +7,9 @@ inputs:
   fallback:
     description: 'Fallback tag to use when no previous tag can be found'
     required: false
+  prefix:
+    description: 'Prefix to query the tag by'
+    required: false
 outputs:
   tag:
     description: 'Latest tag'
