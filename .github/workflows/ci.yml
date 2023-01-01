@@ -27,6 +27,12 @@ jobs:
           echo "Timestamp: ${{ steps.previoustag.outputs.timestamp }}"
           test -n "${{ steps.previoustag.outputs.tag }}"
           test -n "${{ steps.previoustag.outputs.timestamp }}"
+      - name: Assert we got the tag
+        uses: therussiankid92/gat@v1
+        with:
+          assertion: should.equal
+          expected: v1
+          actual: ${{ steps.previoustag.outputs.tag }}
       - name: Add tag with prefix
         run: |
           git tag tag-with-prefix-v1.0.0
@@ -44,6 +50,12 @@ jobs:
         uses: JesseTG/rm@v1.0.2
         with:
           path: .git/refs/tags
+      - name: Assert we got the tag with the expected prefix
+        uses: therussiankid92/gat@v1
+        with:
+          assertion: should.equal
+          expected: tag-with-prefix-v1.0.0
+          actual: ${{ steps.previoustagwithprefix.outputs.tag }}
       - name: 'Get Previous tag with fallback'
         id: previoustagwithfallback
         uses: ./
@@ -54,3 +66,9 @@ jobs:
           echo "Timestamp: ${{ steps.previoustagwithfallback.outputs.timestamp }}"
           test -n "${{ steps.previoustagwithfallback.outputs.tag }}"
           test -n "${{ steps.previoustagwithfallback.outputs.timestamp }}"
+      - name: Assert we got the fallback
+        uses: therussiankid92/gat@v1
+        with:
+          assertion: should.equal
+          expected: v1.0.0
+          actual: ${{ steps.previoustagwithfallback.outputs.tag }}
