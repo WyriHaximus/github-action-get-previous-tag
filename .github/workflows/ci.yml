@@ -83,9 +83,8 @@ jobs:
           test -n "${{ steps.previoustagwithprefix.outputs.tag }}"
           test -n "${{ steps.previoustagwithprefix.outputs.timestamp }}"
       - name: Remove tags
-        uses: JesseTG/rm@v1.0.2
-        with:
-          path: .git/refs/tags
+        run: |
+          rm -r .git/refs/tags
       - name: Assert we got the tag with the expected prefix
         uses: therussiankid92/gat@v1
         with:
