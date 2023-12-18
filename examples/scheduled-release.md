@@ -16,10 +16,10 @@ jobs:
       previous-tag: ${{ steps.previoustag.outputs.tag }}
       timestamp-diff: ${{ steps.diff.outputs.timestamp-diff }}
     steps:
-      - uses: actions/checkout@v2.3.3
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v4
       #▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼#
+      - run: git fetch --tags origin
+
       - name: Get previous tag
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
