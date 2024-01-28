@@ -29,7 +29,7 @@ jobs:
         id: previoustag
         uses: ./
         with:
-          workingDirecvtory: tmp/some/other/path
+          workingDirectory: tmp/some/other/path
       - run: |
           echo "Tag: ${{ steps.previoustag.outputs.tag }}"
           echo "Timestamp: ${{ steps.previoustag.outputs.timestamp }}"
@@ -39,7 +39,7 @@ jobs:
         uses: therussiankid92/gat@v1
         with:
           assertion: should.equal
-          expected: v1
+          expected: 1.8.38
           actual: ${{ steps.previoustag.outputs.tag }}
   get-previous-tag:
     name: Test Get Previous Tag on ${{ matrix.os }}
