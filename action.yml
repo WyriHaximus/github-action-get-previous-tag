@@ -10,6 +10,10 @@ inputs:
   prefix:
     description: 'Prefix to query the tag by'
     required: false
+  workingDirectory:
+    description: The directory to run this workflow in
+    default: ""
+    required: false
 outputs:
   tag:
     description: 'Latest tag'

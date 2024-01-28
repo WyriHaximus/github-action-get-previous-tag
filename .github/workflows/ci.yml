@@ -5,6 +5,42 @@ on:
       - 'master'
   pull_request:
 jobs:
+  get-previous-tag-with-working-directory:
+    name: Test Get Previous Tag on ${{ matrix.os }} with Working Directory
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
+      - uses: actions/checkout@v4
+        with:
+          repository: WyriHaximus/php-fake-php-version
+          ref: master
+          path: tmp/some/other/path
+          fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: ./
+        with:
+          workingDirecvtory: tmp/some/other/path
+      - run: |
+          echo "Tag: ${{ steps.previoustag.outputs.tag }}"
+          echo "Timestamp: ${{ steps.previoustag.outputs.timestamp }}"
+          test -n "${{ steps.previoustag.outputs.tag }}"
+          test -n "${{ steps.previoustag.outputs.timestamp }}"
+      - name: Assert we got the tag
+        uses: therussiankid92/gat@v1
+        with:
+          assertion: should.equal
+          expected: v1
+          actual: ${{ steps.previoustag.outputs.tag }}
   get-previous-tag:
     name: Test Get Previous Tag on ${{ matrix.os }}
     strategy:
