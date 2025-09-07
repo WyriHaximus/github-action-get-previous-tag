@@ -79,7 +79,7 @@ jobs:
           draft: false
           prerelease: false
       - name: Updated related tags
-        uses: haya14busa/action-update-semver@v1
+        uses: haya14busa/action-update-semver@3f49a54b677d969c819c1c6ebea626a54dafe032 # v1.5.0
         with:
           tag: ${{ env.MILESTONE }}
 
