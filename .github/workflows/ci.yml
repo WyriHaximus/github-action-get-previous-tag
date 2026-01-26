@@ -21,8 +21,8 @@ jobs:
           fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          repository: WyriHaximus/php-fake-php-version
-          ref: master
+          repository: repository-situations/same-day-git-tag
+          ref: main
           path: tmp/some/other/path
           fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
       - name: 'Get Previous tag'
@@ -39,7 +39,7 @@ jobs:
         uses: therussiankid92/gat@v1
         with:
           assertion: should.equal
-          expected: 1.8.38
+          expected: v1.0.1
           actual: ${{ steps.previoustag.outputs.tag }}
   get-previous-tag:
     name: Test Get Previous Tag on ${{ matrix.os }}
