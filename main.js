@@ -5,7 +5,7 @@ const workingDirectory = process.env.INPUT_WORKINGDIRECTORY || null;
 
 console.log('\x1b[33m%s\x1b[0m', 'Working directory: ', workingDirectory || '');
 
-exec(`git for-each-ref --sort=-creatordate --count 1 --format="%(refname:short)" "refs/tags/${tagPrefix}"`, {cwd: workingDirectory}, (err, tag, stderr) => {
+exec(`git for-each-ref --sort=-refname --sort=-creatordate --count 1 --format="%(refname:short)" "refs/tags/${tagPrefix}"`, {cwd: workingDirectory}, (err, tag, stderr) => {
     tag = tag.trim();
 
     if (err) {
