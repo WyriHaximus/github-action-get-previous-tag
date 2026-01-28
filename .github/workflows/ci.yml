@@ -107,3 +107,39 @@ jobs:
           assertion: should.equal
           expected: v1.0.0
           actual: ${{ steps.previoustagwithfallback.outputs.tag }}
+  get-previous-tag-on-github-action-with-expected-order:
+    name: Test Get Previous Tag on ${{ matrix.os }} against GitHub Action for expected order of tags
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          repository: repository-situations/github-action-with-x.y-and-x-tags-referring-to-x.y.z-tags-commit
+          ref: main
+          path: tmp/some/other/path
+          fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: ./
+        with:
+          workingDirectory: tmp/some/other/path
+      - run: |
+          echo "Tag: ${{ steps.previoustag.outputs.tag }}"
+          echo "Timestamp: ${{ steps.previoustag.outputs.timestamp }}"
+          test -n "${{ steps.previoustag.outputs.tag }}"
+          test -n "${{ steps.previoustag.outputs.timestamp }}"
+      - name: Assert we got the tag
+        uses: therussiankid92/gat@v1
+        with:
+          assertion: should.equal
+          expected: v1.0
+          actual: ${{ steps.previoustag.outputs.tag }}
