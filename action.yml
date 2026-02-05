@@ -10,6 +10,9 @@ inputs:
   prefix:
     description: 'Prefix to query the tag by'
     required: false
+  pattern:
+    description: 'Pattern to query the tag by'
+    required: false
   workingDirectory:
     description: The directory to run this workflow in
     default: ""

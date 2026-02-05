@@ -18,6 +18,7 @@ it takes a `workingDirectory` if you need to look for a tag in an alternative pa
 
 * `fallback`: `1.0.0`
 * `prefix`: `tag-prefix`
+* `pattern`: `v*[0-9].*[0-9].*[0-9]`
 * `workingDirectory`: `another/path/where/a/git/repo/is/checked/out`
 
 ## Output
@@ -67,7 +68,7 @@ jobs:
 
 ## License ##
 
-Copyright 2021 [Cees-Jan Kiewiet](http://wyrihaximus.net/)
+Copyright 2026 [Cees-Jan Kiewiet](http://wyrihaximus.net/)
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
