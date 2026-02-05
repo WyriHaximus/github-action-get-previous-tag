@@ -108,10 +108,17 @@ jobs:
           expected: v1.0.0
           actual: ${{ steps.previoustagwithfallback.outputs.tag }}
   get-previous-tag-on-github-action-with-expected-order:
-    name: Test Get Previous Tag on ${{ matrix.os }} against GitHub Action for expected order of tags
+    name: Test Get Previous Tag on ${{ matrix.os }} against GitHub Action for expected order of tags (${{ toJSON(matrix) }})
     strategy:
       fail-fast: false
       matrix:
+        include:
+          - pattern: "v*[0-9].*[0-9].*[0-9]"
+            expectedTag: v1.0.1
+        pattern:
+          - ""
+        expectedTag:
+          - v1.0
         os:
           - ubuntu-latest
           - windows-latest
@@ -131,6 +138,7 @@ jobs:
         id: previoustag
         uses: ./
         with:
+          pattern: ${{ matrix.pattern }}
           workingDirectory: tmp/some/other/path
       - run: |
           echo "Tag: ${{ steps.previoustag.outputs.tag }}"
@@ -141,5 +149,42 @@ jobs:
         uses: therussiankid92/gat@v1
         with:
           assertion: should.equal
-          expected: v1.0
+          expected: ${{ matrix.expectedTag }}
+          actual: ${{ steps.previoustag.outputs.tag }}
+  monotonic-release-tag:
+    name: Test Get Previous Tag on ${{ matrix.os }} against a project with a monotonically increasing version, that also has a new not pattern matching tag
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          repository: repository-situations/project-with-monotonicly-increasing-integer-as-version
+          ref: main
+          path: tmp/some/other/path
+          fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: ./
+        with:
+          pattern: r*[0-9]
+          workingDirectory: tmp/some/other/path
+      - run: |
+          echo "Tag: ${{ steps.previoustag.outputs.tag }}"
+          echo "Timestamp: ${{ steps.previoustag.outputs.timestamp }}"
+          test -n "${{ steps.previoustag.outputs.tag }}"
+          test -n "${{ steps.previoustag.outputs.timestamp }}"
+      - name: Assert we got the tag
+        uses: therussiankid92/gat@v1
+        with:
+          assertion: should.equal
+          expected: r1
           actual: ${{ steps.previoustag.outputs.tag }}
