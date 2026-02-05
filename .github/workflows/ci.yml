@@ -67,7 +67,7 @@ jobs:
         uses: therussiankid92/gat@v1
         with:
           assertion: should.equal
-          expected: v1
+          expected: v1.4
           actual: ${{ steps.previoustag.outputs.tag }}
       - name: Add tag with prefix
         run: |
@@ -115,6 +115,13 @@ jobs:
         include:
           - pattern: "v*[0-9].*[0-9].*[0-9]"
             expectedTag: v1.0.1
+            os: ubuntu-latest
+          - pattern: "v*[0-9].*[0-9].*[0-9]"
+            expectedTag: v1.0.1
+            os: windows-latest
+          - pattern: "v*[0-9].*[0-9].*[0-9]"
+            expectedTag: v1.0.1
+            os: macos-latest
         pattern:
           - ""
         expectedTag:
