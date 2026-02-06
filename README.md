@@ -43,12 +43,12 @@ name: Generate
 jobs:
   generate:
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
       - name: 'Get Previous tag'
         id: previoustag
-        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        uses: "WyriHaximus/github-action-get-previous-tag@v2"
         with:
           fallback: 1.0.0 # Optional fallback tag to use when no tag can be found
           #workingDirectory: another/path/where/a/git/repo/is/checked/out # Optional alternative working directory
