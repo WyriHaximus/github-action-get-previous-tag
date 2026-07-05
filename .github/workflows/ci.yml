@@ -103,6 +103,19 @@ jobs:
         with:
           expected: v1.0.0
           actual: ${{ steps.previoustagwithfallback.outputs.tag }}
+      - name: 'Get Previous tag without fallback'
+        id: previoustagwithoutfallback
+        uses: ./
+      - run: |
+          echo "Tag: ${{ steps.previoustagwithfallback.outputs.tag }}"
+          echo "Timestamp: ${{ steps.previoustagwithfallback.outputs.timestamp }}"
+          test -n "${{ steps.previoustagwithfallback.outputs.tag }}"
+          test -n "${{ steps.previoustagwithfallback.outputs.timestamp }}"
+      - name: Assert we got the fallback
+        uses: nick-fields/assert-action@0efd6166067d9c59d89c710fab4f79fb066f8985 # v4.0.1
+        with:
+          expected: v1.0.0
+          actual: ${{ steps.previoustagwithoutfallback.outputs.tag }}
   get-previous-tag-on-github-action-with-expected-order:
     name: Test Get Previous Tag on ${{ matrix.os }} against GitHub Action for expected order of tags (${{ toJSON(matrix) }})
     strategy:
