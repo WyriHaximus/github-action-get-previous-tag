@@ -36,7 +36,7 @@ jobs:
           test -n "${{ steps.previoustag.outputs.tag }}"
           test -n "${{ steps.previoustag.outputs.timestamp }}"
       - name: Assert we got the tag
-        uses: nick-fields/assert-action@v1
+        uses: nick-fields/assert-action@0efd6166067d9c59d89c710fab4f79fb066f8985 # v4.0.1
         with:
           expected: v1.0.1
           actual: ${{ steps.previoustag.outputs.tag }}
@@ -63,7 +63,7 @@ jobs:
           test -n "${{ steps.previoustag.outputs.tag }}"
           test -n "${{ steps.previoustag.outputs.timestamp }}"
       - name: Assert we got the tag
-        uses: nick-fields/assert-action@v1
+        uses: nick-fields/assert-action@0efd6166067d9c59d89c710fab4f79fb066f8985 # v4.0.1
         with:
           expected: v1.4
           actual: ${{ steps.previoustag.outputs.tag }}
@@ -84,7 +84,7 @@ jobs:
         run: |
           rm -r .git/refs/tags
       - name: Assert we got the tag with the expected prefix
-        uses: nick-fields/assert-action@v1
+        uses: nick-fields/assert-action@0efd6166067d9c59d89c710fab4f79fb066f8985 # v4.0.1
         with:
           expected: tag-with-prefix-v1.0.0
           actual: ${{ steps.previoustagwithprefix.outputs.tag }}
@@ -99,7 +99,7 @@ jobs:
           test -n "${{ steps.previoustagwithfallback.outputs.tag }}"
           test -n "${{ steps.previoustagwithfallback.outputs.timestamp }}"
       - name: Assert we got the fallback
-        uses: nick-fields/assert-action@v1
+        uses: nick-fields/assert-action@0efd6166067d9c59d89c710fab4f79fb066f8985 # v4.0.1
         with:
           expected: v1.0.0
           actual: ${{ steps.previoustagwithfallback.outputs.tag }}
@@ -149,7 +149,7 @@ jobs:
           test -n "${{ steps.previoustag.outputs.tag }}"
           test -n "${{ steps.previoustag.outputs.timestamp }}"
       - name: Assert we got the tag
-        uses: nick-fields/assert-action@v1
+        uses: nick-fields/assert-action@0efd6166067d9c59d89c710fab4f79fb066f8985 # v4.0.1
         with:
           expected: ${{ matrix.expectedTag }}
           actual: ${{ steps.previoustag.outputs.tag }}
@@ -185,7 +185,7 @@ jobs:
           test -n "${{ steps.previoustag.outputs.tag }}"
           test -n "${{ steps.previoustag.outputs.timestamp }}"
       - name: Assert we got the tag
-        uses: nick-fields/assert-action@v1
+        uses: nick-fields/assert-action@0efd6166067d9c59d89c710fab4f79fb066f8985 # v4.0.1
         with:
           expected: r1
           actual: ${{ steps.previoustag.outputs.tag }}
