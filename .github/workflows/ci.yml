@@ -36,9 +36,8 @@ jobs:
           test -n "${{ steps.previoustag.outputs.tag }}"
           test -n "${{ steps.previoustag.outputs.timestamp }}"
       - name: Assert we got the tag
-        uses: therussiankid92/gat@v1
+        uses: nick-fields/assert-action@v1
         with:
-          assertion: should.equal
           expected: v1.0.1
           actual: ${{ steps.previoustag.outputs.tag }}
   get-previous-tag:
@@ -64,9 +63,8 @@ jobs:
           test -n "${{ steps.previoustag.outputs.tag }}"
           test -n "${{ steps.previoustag.outputs.timestamp }}"
       - name: Assert we got the tag
-        uses: therussiankid92/gat@v1
+        uses: nick-fields/assert-action@v1
         with:
-          assertion: should.equal
           expected: v1.4
           actual: ${{ steps.previoustag.outputs.tag }}
       - name: Add tag with prefix
@@ -86,9 +84,8 @@ jobs:
         run: |
           rm -r .git/refs/tags
       - name: Assert we got the tag with the expected prefix
-        uses: therussiankid92/gat@v1
+        uses: nick-fields/assert-action@v1
         with:
-          assertion: should.equal
           expected: tag-with-prefix-v1.0.0
           actual: ${{ steps.previoustagwithprefix.outputs.tag }}
       - name: 'Get Previous tag with fallback'
@@ -102,9 +99,8 @@ jobs:
           test -n "${{ steps.previoustagwithfallback.outputs.tag }}"
           test -n "${{ steps.previoustagwithfallback.outputs.timestamp }}"
       - name: Assert we got the fallback
-        uses: therussiankid92/gat@v1
+        uses: nick-fields/assert-action@v1
         with:
-          assertion: should.equal
           expected: v1.0.0
           actual: ${{ steps.previoustagwithfallback.outputs.tag }}
   get-previous-tag-on-github-action-with-expected-order:
@@ -153,9 +149,8 @@ jobs:
           test -n "${{ steps.previoustag.outputs.tag }}"
           test -n "${{ steps.previoustag.outputs.timestamp }}"
       - name: Assert we got the tag
-        uses: therussiankid92/gat@v1
+        uses: nick-fields/assert-action@v1
         with:
-          assertion: should.equal
           expected: ${{ matrix.expectedTag }}
           actual: ${{ steps.previoustag.outputs.tag }}
   monotonic-release-tag:
@@ -190,8 +185,7 @@ jobs:
           test -n "${{ steps.previoustag.outputs.tag }}"
           test -n "${{ steps.previoustag.outputs.timestamp }}"
       - name: Assert we got the tag
-        uses: therussiankid92/gat@v1
+        uses: nick-fields/assert-action@v1
         with:
-          assertion: should.equal
           expected: r1
           actual: ${{ steps.previoustag.outputs.tag }}
