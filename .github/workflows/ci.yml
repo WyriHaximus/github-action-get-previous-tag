@@ -65,7 +65,7 @@ jobs:
       - name: Assert we got the tag
         uses: nick-fields/assert-action@0efd6166067d9c59d89c710fab4f79fb066f8985 # v4.0.1
         with:
-          expected: v1.4
+          expected: v2.0
           actual: ${{ steps.previoustag.outputs.tag }}
       - name: Add tag with prefix
         run: |
