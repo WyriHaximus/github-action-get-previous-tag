@@ -13,6 +13,10 @@ exec(`git for-each-ref --sort=-refname --sort=-creatordate --count 1 --format="%
         console.log('\x1b[31m%s\x1b[0m', stderr);
         process.exit(1);
     } else if (tag === "") {
+        if (process.env.INPUT_FALLBACK === "") {
+            console.log('\x1b[31m%s\x1b[0m', 'No fallback tag was provided and no tag was found.');
+            process.exit(1);
+        }
         let timestamp = Math.floor(new Date().getTime() / 1000);
         console.log('\x1b[33m%s\x1b[0m', 'Falling back to default tag');
         console.log('\x1b[32m%s\x1b[0m', `Found tag: ${process.env.INPUT_FALLBACK}`);
