@@ -11,8 +11,7 @@ GitHub Action that gets the latest tag from Git
 
 ## Input
 
-By default, this action will fail if no tag can be found, however, it accepts a `fallback` tag that will be used when no 
-tag can be found. Keep in mind that when this action is used in a workflow that has no `.git` directory, it will still 
+By default, this action will fail if no tag can be found and no `fallback` is provided; when set, the `fallback` tag will be used instead. Keep in mind that when this action is used in a workflow that has no `.git` directory, it will still
 fail, and the fallback tag isn't used.  It is also accepts a `pattern` string to query the tags based on it. Pattern to 
 query the tag by this can be semver (`v*[0-9].*[0-9].*[0-9]`) or a simple monotonically increasing integer (`r*`) and 
 defaults to * And finally it takes a `workingDirectory` if you need to look for a tag in an alternative path.
