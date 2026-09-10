@@ -1,11 +1,11 @@
-const { exec } = require('child_process');
+const { execFile } = require('child_process');
 const fs = require('fs');
 const tagPattern = `${process.env.INPUT_PATTERN || '*'}`;
 const workingDirectory = process.env.INPUT_WORKINGDIRECTORY || null;
 
 console.log('\x1b[33m%s\x1b[0m', 'Working directory: ', workingDirectory || '');
 
-exec(`git for-each-ref --sort=-refname --sort=-creatordate --count 1 --format="%(refname:short)" "refs/tags/${tagPattern}"`, {cwd: workingDirectory}, (err, tag, stderr) => {
+execFile('git', ['for-each-ref', '--sort=-refname', '--sort=-creatordate', '--count', '1', '--format=%(refname:short)', `refs/tags/${tagPattern}`], {cwd: workingDirectory}, (err, tag, stderr) => {
     tag = tag.trim();
 
     if (err) {
@@ -26,7 +26,7 @@ exec(`git for-each-ref --sort=-refname --sort=-creatordate --count 1 --format="%
         process.exit(0);
     }
 
-    exec(`git log -1 --format=%at ${tag}`, {cwd: workingDirectory}, (err, timestamp, stderr) => {
+    execFile('git', ['log', '-1', '--format=%at', tag], {cwd: workingDirectory}, (err, timestamp, stderr) => {
         if (err) {
             console.log('\x1b[33m%s\x1b[0m', 'Could not find any timestamp because: ');
             console.log('\x1b[31m%s\x1b[0m', stderr);
